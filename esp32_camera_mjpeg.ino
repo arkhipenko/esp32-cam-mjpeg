@@ -1,5 +1,14 @@
+/*
 
+  This is a simple MJPEG streaming webserver implemented for AI-Thinker ESP32-CAM module.
+  This is tested to work with VLC and Blynk video widget.
 
+  Inspired by and based on this Instructable: $9 RTSP Video Streamer Using the ESP32-CAM Board
+  (https://www.instructables.com/id/9-RTSP-Video-Streamer-Using-the-ESP32-CAM-Board/)
+
+  Board: AI-Thinker ESP32-CAM
+
+*/
 
 #include "src/OV2640.h"
 #include <WiFi.h>
@@ -27,6 +36,7 @@ const int cntLen = strlen(CTNTTYPE);
 void handle_jpg_stream(void)
 {
   char buf[32];
+  int s;
 
   WiFiClient client = server.client();
 
@@ -37,17 +47,18 @@ void handle_jpg_stream(void)
   {
     if (!client.connected()) break;
     cam.run();
+    s = cam.getSize();
     client.write(CTNTTYPE, cntLen);
-    sprintf( buf, "%d\r\n\r\n", cam.getSize() );
+    sprintf( buf, "%d\r\n\r\n", s );
     client.write(buf, strlen(buf));
-    client.write((char *)cam.getfb(), cam.getSize());
+    client.write((char *)cam.getfb(), s);
     client.write(BOUNDARY, bdrLen);
   }
 }
 
-const char JHEADER[] = = "HTTP/1.1 200 OK\r\n" \
-                         "Content-disposition: inline; filename=capture.jpg\r\n" \
-                         "Content-type: image/jpeg\r\n\r\n";
+const char JHEADER[] = "HTTP/1.1 200 OK\r\n" \
+                       "Content-disposition: inline; filename=capture.jpg\r\n" \
+                       "Content-type: image/jpeg\r\n\r\n";
 const int jhdLen = strlen(JHEADER);
 
 void handle_jpg(void)
