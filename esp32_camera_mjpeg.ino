@@ -134,16 +134,14 @@ void setup()
   Serial.println(F("WiFi connected"));
   Serial.println("");
   Serial.println(ip);
-  Serial.print("Stream Link: rtsp://");
+  Serial.print("Stream Link: http://");
   Serial.print(ip);
-  Serial.println(":8554/mjpeg/1");
+  Serial.println("/mjpeg/1");
   server.on("/mjpeg/1", HTTP_GET, handle_jpg_stream);
   server.on("/jpg", HTTP_GET, handle_jpg);
   server.onNotFound(handleNotFound);
   server.begin();
 }
-
-WiFiClient client; // FIXME, support multiple clients
 
 void loop()
 {
