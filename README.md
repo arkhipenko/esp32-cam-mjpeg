@@ -1,4 +1,4 @@
-# ESP 32 MJPEG Streaming Server
+# ESP32 MJPEG Streaming Server
 
 This is a simple MJPEG streaming webserver implemented for AI-Thinker ESP32-CAM and ESP-EYE modules. 
 
