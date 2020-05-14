@@ -1,6 +1,7 @@
 /*
 
-  This is a simple MJPEG streaming webserver implemented for AI-Thinker ESP32-CAM module.
+  This is a simple MJPEG streaming webserver implemented for AI-Thinker ESP32-CAM and
+  ESP32-EYE modules.
   This is tested to work with VLC and Blynk video widget.
 
   Inspired by and based on this Instructable: $9 RTSP Video Streamer Using the ESP32-CAM Board
@@ -15,7 +16,12 @@
 #include <WebServer.h>
 #include <WiFiClient.h>
 
-#define CAMERA_MODEL_AI_THINKER
+// Select camera model
+//#define CAMERA_MODEL_WROVER_KIT
+#define CAMERA_MODEL_ESP_EYE
+//#define CAMERA_MODEL_M5STACK_PSRAM
+//#define CAMERA_MODEL_M5STACK_WIDE
+//#define CAMERA_MODEL_AI_THINKER
 
 #include "camera_pins.h"
 #include "home_wifi_multi.h"
@@ -115,9 +121,14 @@ void setup()
 
   // Frame parameters
   //  config.frame_size = FRAMESIZE_UXGA;
-  config.frame_size = FRAMESIZE_VGA;
-  config.jpeg_quality = 10;
+  config.frame_size = FRAMESIZE_QVGA;
+  config.jpeg_quality = 12;
   config.fb_count = 2;
+
+#if defined(CAMERA_MODEL_ESP_EYE)
+  pinMode(13, INPUT_PULLUP);
+  pinMode(14, INPUT_PULLUP);
+#endif
 
   cam.init(config);
 
