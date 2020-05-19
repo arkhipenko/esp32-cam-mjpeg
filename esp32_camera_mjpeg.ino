@@ -24,6 +24,19 @@
 //#define CAMERA_MODEL_AI_THINKER
 
 #include "camera_pins.h"
+
+/*
+Next one is an include with wifi credentials.
+This is what you need to do:
+
+1. Create a file called "home_wifi_multi.h" in the same folder   OR   under a separate subfolder of the "libraries" folder of Arduino IDE. (You are creating a "fake" library really - I called it "MySettings"). 
+2. Place the following text in the file:
+#define SSID1 "replace with your wifi ssid"
+#define PWD1 "replace your wifi password"
+3. Save.
+
+Should work then
+*/
 #include "home_wifi_multi.h"
 
 OV2640 cam;
